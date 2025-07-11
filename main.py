@@ -81,9 +81,11 @@ if page == "Dashboard":
         st.subheader("📊 Expense by Category")
         df["Amount"] = pd.to_numeric(df["Amount"], errors="coerce")
         expenses = df[df["Amount"] < 0].dropna(subset=["Amount", "Category"])
+        st.dataframe(expenses.head(2))
         
         if not expenses.empty:
             category = expenses.groupby("Category")["Amount"].sum().reset_index()
+            st.dataframe(category.head())
             fig2 = px.pie(category, values="Amount", names="Category", title="Expenses by Category")
             st.plotly_chart(fig2, use_container_width=True)
         else:
