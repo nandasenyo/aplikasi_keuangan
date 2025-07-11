@@ -67,11 +67,11 @@ if page == "Dashboard":
         col2.metric("Total Expense", f"Rp {abs(total_expense):,.0f}")
         col3.metric("Net Balance", f"Rp {net_balance:,.0f}")
 
-        # st.subheader("📈 Monthly Expenses")
-        # df["Month"] = pd.to_datetime(df["Date"]).dt.to_period("M").astype(str)
-        # monthly = df[df["Amount"] < 0].groupby("Month")["Amount"].sum().reset_index()
-        # fig = px.bar(monthly, x="Month", y="Amount", title="Monthly Expenses", labels={'Amount':'Total Expense'})
-        # st.plotly_chart(fig, use_container_width=True)
+        st.subheader("📈 Monthly Expenses")
+        df["Month"] = pd.to_datetime(df["Date"]).dt.to_period("M").astype(str)
+        monthly = df[df["Amount"] < 0].groupby("Month")["Amount"].sum().reset_index()
+        fig = px.bar(monthly, x="Month", y="Amount", title="Monthly Expenses", labels={'Amount':'Total Expense'})
+        st.plotly_chart(fig, use_container_width=True)
 
         st.subheader("📊 Expense by Category")
         category = df[df["Amount"] < 0].groupby("Category")["Amount"].sum().reset_index()
