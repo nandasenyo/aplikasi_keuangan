@@ -73,10 +73,22 @@ if page == "Dashboard":
         fig = px.bar(monthly, x="Month", y="Amount", title="Monthly Expenses", labels={'Amount':'Total Expense'})
         st.plotly_chart(fig, use_container_width=True)
 
+        # st.subheader("📊 Expense by Category")
+        # category = df[df["Amount"] < 0].groupby("Category")["Amount"].sum().reset_index()
+        # fig2 = px.bar(category, values="Amount", names="Category", title="Expenses by Category")
+        # st.plotly_chart(fig2, use_container_width=True)
+
         st.subheader("📊 Expense by Category")
-        category = df[df["Amount"] < 0].groupby("Category")["Amount"].sum().reset_index()
-        fig2 = px.bar(category, values="Amount", names="Category", title="Expenses by Category")
-        st.plotly_chart(fig2, use_container_width=True)
+        df["Amount"] = pd.to_numeric(df["Amount"], errors="coerce")
+        expenses = df[df["Amount"] < 0].dropna(subset=["Amount", "Category"])
+        
+        if not expenses.empty:
+            category = expenses.groupby("Category")["Amount"].sum().reset_index()
+            fig2 = px.pie(category, values="Amount", names="Category", title="Expenses by Category")
+            st.plotly_chart(fig2, use_container_width=True)
+        else:
+            st.info("Belum ada data pengeluaran untuk ditampilkan dalam grafik pie.")
+
 
 # Upload Page
 elif page == "Upload Data":
