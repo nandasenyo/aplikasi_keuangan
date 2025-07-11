@@ -75,7 +75,7 @@ if page == "Dashboard":
 
         st.subheader("📊 Expense by Category")
         category = df[df["Amount"] < 0].groupby("Category")["Amount"].sum().reset_index()
-        fig2 = px.pie(category, values="Amount", names="Category", title="Expenses by Category")
+        fig2 = px.bar(category, values="Amount", names="Category", title="Expenses by Category")
         st.plotly_chart(fig2, use_container_width=True)
 
 # Upload Page
